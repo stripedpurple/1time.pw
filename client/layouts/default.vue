@@ -1,19 +1,14 @@
 <template>
   <div class="main-content">
-    <b-navbar type="is-info" fixed-top>
-      <template slot="brand">
-        <b-navbar-item tag="nuxt-link" to="/">
-          <span class="title has-text-white is-size-4">1TIME.PW</span>
-        </b-navbar-item>
-      </template>
-
-      <template slot="end">
-        <b-navbar-item tag="nuxt-link" :to="route.path" v-for="(route, key) in $router.options.routes" style="text-transform: capitalize" :key="key">
-          {{route.name | isHome}}
-        </b-navbar-item>
-      </template>
-    </b-navbar>
     <nuxt/>
+    <section class="footer has-background-dark has-text-light"><div class="container">
+      <footer>
+        &copy; Austin Barrett&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;Made with
+        <b-icon icon="heart" class="has-text-danger"/>
+        by
+        <a class="has-text-info" href="//stripedpurple.io" target="_blank" rel="noopener nofollow">Striped Purple</a>
+      </footer>
+    </div></section>
   </div>
 </template>
 
@@ -33,3 +28,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .footer {
+    vertical-align: center;
+  }
+</style>
