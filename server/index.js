@@ -22,7 +22,6 @@ const init = async () => {
     path: '/api/v1/key/{id}',
     handler: (req, h) => {
       return getAsync(req.params.id).then(res => {
-        console.log(res)
         client.del(req.params.id)
         return res
       }).catch(err => {

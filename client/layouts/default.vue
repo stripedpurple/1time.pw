@@ -30,7 +30,12 @@ export default {
 </script>
 
 <style>
-  .footer {
-    vertical-align: center;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 </style>
