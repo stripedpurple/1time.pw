@@ -1,6 +1,7 @@
 {
   "name": "1time.pw",
   "version": "1.0.0",
+  "description": "1time.pw it's like snapchat for secrets. Need to send a password? Love Note? Haiku? This is the place.",
   "private": true,
   "scripts": {
     "dev": "nuxt",
