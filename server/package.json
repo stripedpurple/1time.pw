@@ -9,6 +9,7 @@
   "author": "Austin Barrett",
   "dependencies": {
     "@hapi/hapi": "^19.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "redis": "^3.0.2"
   }
 }

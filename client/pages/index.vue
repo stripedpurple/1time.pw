@@ -28,7 +28,7 @@
           </b-field>
 
           <b-field label="Expires in" class="has-text-left">
-            <b-select placeholder="Select a name" expanded>
+            <b-select placeholder="Select a name" expanded v-model="expiry">
               <option
                 v-for="option in expiryOpts"
                 :value="option.val"
@@ -39,12 +39,11 @@
           </b-field>
 
           <b-field label="Passphrase">
-            <b-input v-model="passphrase" placeholder="Optional password"/>
+            <b-input v-model="passphrase" placeholder="Optional password" type="password"/>
           </b-field>
 
-          <b-button type="is-light is-outlined"> share</b-button>
+          <b-button type="is-light is-outlined" @click="generateLink">share</b-button>
 
-          {{encodedMessage}}
         </div>
       </div>
     </section>
@@ -154,12 +153,12 @@
         </div>
       </div>
     </section>
+
+    <input type="hidden" :value="url" id="copyThis">
   </div>
 </template>
 
 <script>
-
-
   export default {
     name: 'Home',
     data() {
@@ -168,6 +167,7 @@
         messege: '',
         key: '',
         passphrase: '',
+        expiry: '',
         expiryOpts: [
           {text: '1 hour', val: 60 * 60},
           {text: '2 hour', val: 60 * 60 *2},
@@ -184,29 +184,62 @@
           {text: '2 weeks', val: 60 * 60 * 24 * 14},
         ],
         activeStep: 3,
-      }
-    },
-    computed: {
-      encodedMessage(){
-        let encrypted = this.$CryptoJS.AES.encrypt(this.messege, this.passphrase +  this.generateKey()).toString()
-        return this.$CryptoJS.enc.Base64.stringify(this.enc.Utf8.parse(encrypted))
+        url: ''
       }
     },
     methods: {
-      generateKey: function () {
-        // https://medium.com/@dazcyril/generating-cryptographic-random-state-in-javascript-in-the-browser-c538b3daae50
-        const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let array = new Uint8Array(256);
-        this.window.crypto.getRandomValues(array);
-        array = array.map(x => validChars.charCodeAt(x % validChars.length));
-        return String.fromCharCode.apply(null, array);
-      }
+      generateLink() {
+        let key = this.$CryptoJS.lib.WordArray.random(1024/8).toString();
+        let encrypted = this.$CryptoJS.AES.encrypt(this.messege, this.passphrase + key).toString();
+        let hash = this.$CryptoJS.SHA256(encrypted).toString();
+        let url = this.url = window.location.protocol + '//' + window.location.host + '/d#' + (!!this.passphrase ? '#' : '') + encrypted;
+        this.url = url;
+
+        console.log({hash: hash, key: key, expiry: this.expiry})
+
+        this.$axios.post('/key', {hash: hash, key: key, expiry: this.expiry}).then(res => {
+          console.log(res);
+          this.$buefy.snackbar.open({
+            message: `<p style="overflow-wrap: anywhere; text-align: center;">${url}</p>`,
+            type: 'is-info',
+            position: 'is-top',
+            actionText: 'Copy',
+            indefinite: true,
+            onAction: () => {
+              this.copyData()
+              this.$buefy.toast.open({
+                message: 'Copied!',
+                queue: false,
+                type: 'is-success'
+              })
+            }
+          })
+        }).catch(err => {
+          this.$buefy.toast.open({type: 'is-danger', message: 'An error occurred!\nPlease try again later'})
+        })
+      },
+      copyData () {
+        let textToCopy = document.querySelector('#copyThis');
+        textToCopy.setAttribute('type', 'text');
+        textToCopy.select();
+
+        try {
+          document.execCommand('copy');
+        } catch (err) {
+          return this.$buefy.toast.open({
+            message: 'Oops, unable to copy!',
+            type: 'is-danger'
+          });
+        }
+        this.$buefy.toast.open({
+          message: 'Copied',
+          type: 'is-success'
+        });
+        /* unselect the range */
+        textToCopy.setAttribute('type', 'hidden');
+        window.getSelection().removeAllRanges();
+      },
     },
-    created() {
-      if (process.client || process.browser) {
-        this.window =  window;
-      }
-    }
   }
 </script>
 

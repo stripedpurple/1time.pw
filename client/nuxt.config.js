@@ -55,12 +55,17 @@ export default {
     'nuxt-buefy',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy'
   ],
+  proxy:
+    {'/api/v1/**': 'http://127.0.0.1:3001'},
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    baseURL: '/api/v1/'
+  },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
