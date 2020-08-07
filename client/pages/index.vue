@@ -17,9 +17,9 @@
         </b-navbar>
       </div>
       <div class="hero-body">
-        <div style="max-width: 600px">
-          <h1 class="title">Share your secrets securely</h1>
-          <p class="is-size-5">1time.pw it's like snapchat for secrets. Need to send a password? Love
+        <div style="max-width: 768px">
+          <h1 class="title is-size-4-mobile is-size-2-tablet">Share your secrets securely</h1>
+          <p class="is-size-4-tablet">1time.pw it's like snapchat for secrets. Need to send a password? Love
             Note? Haiku? This is the place.</p>
 
           <br>
@@ -46,8 +46,8 @@
             </b-field>
 
             <div class="buttons is-expanded">
-              <b-button tag="a" type="is-warning is-light" @click="generatePassword">generate password</b-button>
-              <b-button tag="a" type="is-dark is-pulled-right" @click="generateLink">share</b-button>
+              <b-button tag="a" size="is-medium" type="is-warning is-light" @click="generatePassword">generate password</b-button>
+              <b-button tag="a" size="is-medium" type="is-dark is-pulled-right" @click="generateLink">share</b-button>
             </div>
           </form>
 
