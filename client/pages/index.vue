@@ -25,7 +25,7 @@
           <br>
           <form v-on:submit.prevent="generateLink">
             <b-field label="Message" class="has-text-left">
-              <b-input type="textarea" v-model="messege"
+              <b-input type="textarea" v-model="message"
                        :placeholder="`Your eyes are fire.\nTheir image burnt into my soul,\nScarred by beauty.`"
                        required/>
             </b-field>
@@ -45,7 +45,10 @@
               <b-input v-model="passphrase" placeholder="Optional password" type="password"/>
             </b-field>
 
-            <b-button type="is-light is-outlined" @click="generateLink">share</b-button>
+            <div class="buttons is-expanded">
+              <b-button tag="a" type="is-warning is-light" @click="generatePassword">generate password</b-button>
+              <b-button tag="a" type="is-dark is-pulled-right" @click="generateLink">share</b-button>
+            </div>
           </form>
 
         </div>
@@ -64,7 +67,7 @@
     data() {
       return {
         window: '',
-        messege: '',
+        message: '',
         key: '',
         passphrase: '',
         expiry: 3600,
@@ -90,7 +93,7 @@
     methods: {
       generateLink() {
         let key = this.$CryptoJS.lib.WordArray.random(1024 / 8).toString();
-        let encrypted = this.$CryptoJS.AES.encrypt(this.messege, this.passphrase + key).toString();
+        let encrypted = this.$CryptoJS.AES.encrypt(this.message, this.passphrase + key).toString();
         let hash = this.$CryptoJS.SHA256(encrypted).toString();
         let url = this.url = window.location.protocol + '//' + window.location.host + '/d#' + (!!this.passphrase ? '#' : '') + encrypted;
         this.url = url;
@@ -139,6 +142,9 @@
         textToCopy.setAttribute('type', 'hidden');
         window.getSelection().removeAllRanges();
       },
+      generatePassword() {
+        this.message = String.fromCodePoint(...Array.from({length: 128}, () => Math.floor(Math.random() * 123))).replace(/[^\w\d\#\!\-\_\=\+\@\$\%\&\.\*]/g, '').slice(0 - (Math.random() * 20 + 12)).toString()
+      }
     },
   }
 </script>
@@ -174,4 +180,15 @@
   body.has-navbar-fixed-top {
     padding: 0;
   }
+
+  .buttons.is-expanded {
+    display: flex;
+    flex: 1;
+    flex-wrap: nowrap;
+  }
+
+  .buttons.is-expanded .button {
+    width: 100%;
+  }
+
 </style>
