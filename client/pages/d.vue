@@ -16,13 +16,17 @@
       </b-navbar>
     </div>
     <div class="hero-body">
-      <div style="max-width: 600px">
-        <h1 class="title">Show my secret!</h1>
-        <p class="is-size-5">You can only view your message once, so be sure to save any data you need.</p>
+      <div style="max-width: 768px; width: 100%;">
+        <h1 class="title is-size-2-tablet">
+          {{ !message ? 'Show my secret!' : 'Secrets ahoy!' }}
+        </h1>
+        <p class="is-size-4">
+          {{ !message ? 'You can only view your message once, so be sure to save any data you need.' : 'Don\'t forget to save your data'}}
+        </p>
 
         <br>
         <b-field label="Message" class="has-text-left" v-if="!!message">
-          <b-input type="textarea" v-model="message"
+          <b-input type="textarea" v-model="message" id="copyThis"
                    :placeholder="`Your eyes are fire.\nTheir image burnt into my soul,\nScarred by beauty.`"/>
         </b-field>
 
@@ -31,7 +35,8 @@
           <b-input v-model="passphrase" type="password"/>
         </b-field>
 
-        <b-button type="is-light is-outlined" @click="viewMessage" v-show="!message">view</b-button>
+        <b-button type="is-dark is-fullwidth" size="is-medium" @click="viewMessage" v-show="!message">view</b-button>
+        <b-button type="is-dark is-fullwidth" size="is-medium" @click="copyData" v-show="!!message">copy data</b-button>
 
       </div>
     </div>

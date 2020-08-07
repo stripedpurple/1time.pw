@@ -103,7 +103,7 @@
         this.$axios.post('/key', {hash: hash, key: key, expiry: this.expiry}).then(res => {
           console.log(res);
           this.$buefy.snackbar.open({
-            message: `<p style="overflow-wrap: anywhere; text-align: center;">${url}</p>`,
+            message: `<a href="${url}" class="has-text-light" style="overflow-wrap: anywhere; text-align: center;">${url}</a>`,
             type: 'is-info',
             position: 'is-top',
             actionText: 'Copy',
