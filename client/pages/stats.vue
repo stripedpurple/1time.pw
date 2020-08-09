@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <Navi/>
     <section class="section">
       <div class="container">
@@ -35,8 +35,15 @@
     },
     mounted() {
       this.$axios.get('/stats').then(res => {
-          this.stats = res.data
+        this.stats = res.data
       })
     },
   }
 </script>
+
+<style scoped>
+  .box {
+    background: #167df0 url("/pattern-clipart-triangle-pattern-triangle-transparent-free-for-triangle-pattern-png-2400_2400.png") center center repeat;
+    background-attachment: fixed;
+  }
+</style>

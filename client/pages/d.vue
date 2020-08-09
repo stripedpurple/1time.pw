@@ -1,19 +1,7 @@
 <template>
   <section class="hero is-fullheight is-info">
     <div class="hero-head">
-      <b-navbar type="is-info" transparent>
-        <template slot="brand">
-          <b-navbar-item tag="nuxt-link" to="/">
-            <span class="title has-text-white is-size-4">1TIME.PW</span>
-          </b-navbar-item>
-        </template>
-
-        <template slot="end">
-          <b-navbar-item tag='nuxt-link' to="/#about">About</b-navbar-item>
-          <b-navbar-item tag='nuxt-link' to="/#how">How it works?</b-navbar-item>
-          <b-navbar-item tag='nuxt-link' to="/#donate">Donate</b-navbar-item>
-        </template>
-      </b-navbar>
+      <Navi/>
     </div>
     <div class="hero-body">
       <div style="max-width: 768px; width: 100%;">
