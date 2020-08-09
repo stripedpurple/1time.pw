@@ -2,19 +2,7 @@
   <div>
     <section class="hero is-fullheight is-info">
       <div class="hero-head">
-        <b-navbar type="is-info" transparent>
-          <template slot="brand">
-            <b-navbar-item tag="nuxt-link" to="/">
-              <span class="title has-text-white is-size-4">1TIME.PW</span>
-            </b-navbar-item>
-          </template>
-
-          <template slot="end">
-            <b-navbar-item tag='a' href="#about">About</b-navbar-item>
-            <b-navbar-item tag='a' href="#how">How it works?</b-navbar-item>
-            <b-navbar-item tag='a' href="#donate">Donate</b-navbar-item>
-          </template>
-        </b-navbar>
+        <Navi/>
       </div>
       <div class="hero-body">
         <div style="max-width: 768px">
@@ -149,17 +137,13 @@
   }
 </script>
 
-<style>
-  .navbar.is-info {
-    background: transparent;
-  }
-
-  .label {
+<style scoped>
+  >>> .label {
     color: inherit;
   }
 
   .hero {
-    background: transparent url("/pattern-clipart-triangle-pattern-triangle-transparent-free-for-triangle-pattern-png-2400_2400.png") center center repeat;
+    background: #167df0 url("/pattern-clipart-triangle-pattern-triangle-transparent-free-for-triangle-pattern-png-2400_2400.png") center center repeat;
     background-attachment: fixed;
   }
 
@@ -168,17 +152,6 @@
       padding-left: 10vw;
       padding-right: 10vw;
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    .b-steps:not(.is-vertical) .steps.mobile-compact .step-items .step-item:not(.is-active) .step-details {
-      display: block !important;
-    }
-
-  }
-
-  body.has-navbar-fixed-top {
-    padding: 0;
   }
 
   .buttons.is-expanded {

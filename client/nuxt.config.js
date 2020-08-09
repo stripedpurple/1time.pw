@@ -25,6 +25,9 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
+    ],
+    script: [
+      {"src": "/mga.min.js"}
     ]
   },
   /*

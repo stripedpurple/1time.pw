@@ -57,21 +57,39 @@
     },
     methods: {
       viewMessage() {
-        let encrypted = this.$route.hash.replace(/#/g,'');
-        let hash = this.$CryptoJS.SHA256(encrypted).toString();
-        console.log(hash);
-        this.$axios.get(`/key/${hash}`).then(res => {
-          if (res.status !== 200)
-            return this.$buefy.toast.open({
-              type: 'is-danger',
-              message: 'Message has expired 😔',
-              duration: 5000
-            });
+        if (process.browser) {
+          let encrypted = this.$route.hash.replace(/#/g, '');
+          let hash = this.$CryptoJS.SHA256(encrypted).toString();
 
-          return this.message = this.$CryptoJS.AES.decrypt(encrypted, this.passphrase + res.data.toString()).toString(this.$CryptoJS.enc.Utf8)
-        }).catch(err => {
-          return this.$buefy.toast.open({type: 'is-danger', message: 'An error occurred!\nPlease try again later'})
-        })
+          if (this.key){
+            this.message = this.$CryptoJS.AES.decrypt(encrypted, this.passphrase + this.key).toString(this.$CryptoJS.enc.Utf8)
+
+            if (!this.message) {
+              return this.$buefy.toast.open({type: 'is-danger', message: 'Incorrect password! Please try again'})
+            }
+            localStorage.removeItem('key')
+            return
+          }
+
+          this.$axios.get(`/key/${hash}`).then(res => {
+            if (res.status !== 200)
+              return this.$buefy.toast.open({
+                type: 'is-danger',
+                message: 'Message has expired 😔',
+                duration: 5000
+              });
+
+            this.key = res.data;
+            localStorage.setItem("key", res.data);
+            this.message = this.$CryptoJS.AES.decrypt(encrypted, this.passphrase + this.key).toString(this.$CryptoJS.enc.Utf8)
+
+            if (!!this.message) {
+              localStorage.removeItem('key')
+            }
+          }).catch(err => {
+            return this.$buefy.toast.open({type: 'is-danger', message: 'An error occurred!\nPlease try again later'})
+          })
+        }
       },
       copyData() {
         let textToCopy = document.querySelector('#copyThis');
@@ -98,21 +116,18 @@
     },
     mounted() {
       this.viewPassword = this.$route.hash.substring(0, 2) == '##'
+      this.key = localStorage.getItem('key')
     }
   }
 </script>
 
-<style>
-  .navbar.is-info {
-    background: transparent;
-  }
-
-  .label {
+<style scoped>
+  >>> .label {
     color: inherit;
   }
 
   .hero {
-    background: transparent url("/pattern-clipart-triangle-pattern-triangle-transparent-free-for-triangle-pattern-png-2400_2400.png") center center repeat;
+    background: #167df0 url("/pattern-clipart-triangle-pattern-triangle-transparent-free-for-triangle-pattern-png-2400_2400.png") center center repeat;
     background-attachment: fixed;
   }
 
@@ -121,16 +136,5 @@
       padding-left: 10vw;
       padding-right: 10vw;
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    .b-steps:not(.is-vertical) .steps.mobile-compact .step-items .step-item:not(.is-active) .step-details {
-      display: block !important;
-    }
-
-  }
-
-  body.has-navbar-fixed-top {
-    padding: 0;
   }
 </style>

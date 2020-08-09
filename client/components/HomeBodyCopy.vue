@@ -117,3 +117,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  @media screen and (max-width: 768px) {
+    >>> .b-steps:not(.is-vertical) .steps.mobile-compact .step-items .step-item:not(.is-active) .step-details {
+      display: block !important;
+    }
+  }
+</style>
