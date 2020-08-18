@@ -29,6 +29,11 @@
               </b-select>
             </b-field>
 
+            <b-field>
+              <b-checkbox v-model="showPassword" type="is-warning">Password protect my note</b-checkbox>
+            </b-field>
+
+
             <b-field v-if="showPassword" :addons="false" label="Password"
                      :type="`${(confirmPassphrase !== passphrase && confirmPassphrase !== '' && passphrase !== '') ? 'is-danger' : ''}`"
                      :message="`${(confirmPassphrase !== passphrase && confirmPassphrase !== '' && passphrase !== '') ? 'Passwords dont match' : ''}`">
@@ -38,9 +43,6 @@
 
             </b-field>
 
-            <b-field>
-              <b-checkbox v-model="showPassword" type="is-warning">Password protect my note</b-checkbox>
-            </b-field>
 
             <b-field grouped>
               <p class="control">
