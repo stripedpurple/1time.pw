@@ -13,18 +13,21 @@
         </p>
 
         <br>
-        <b-field label="Message" class="has-text-left" v-if="!!message">
-          <b-input type="textarea" v-model="message" id="copyThis"
-                   :placeholder="`Your eyes are fire.\nTheir image burnt into my soul,\nScarred by beauty.`"/>
-        </b-field>
+        <form @submit.prevent="viewMessage">
+          <b-field label="Message" class="has-text-left" v-if="!!message">
+            <b-input type="textarea" v-model="message" id="copyThis"
+                     :placeholder="`Your eyes are fire.\nTheir image burnt into my soul,\nScarred by beauty.`"/>
+          </b-field>
 
 
-        <b-field label="Enter your password to view" v-show="viewPassword && !message">
-          <b-input v-model="passphrase" type="password"/>
-        </b-field>
+          <b-field label="Enter your password to view" v-show="viewPassword && !message">
+            <b-input v-model="passphrase" type="password" :required="viewPassword"/>
+          </b-field>
 
-        <b-button type="is-dark is-fullwidth" size="is-medium" @click="viewMessage" v-show="!message">view</b-button>
-        <b-button type="is-dark is-fullwidth" size="is-medium" @click="copyData" v-show="!!message">copy data</b-button>
+          <b-button type="is-dark is-fullwidth" size="is-medium" native-type="submit" v-show="!message">view</b-button>
+          <b-button type="is-dark is-fullwidth" size="is-medium" @click="copyData" v-show="!!message">copy data
+          </b-button>
+        </form>
 
       </div>
     </div>
